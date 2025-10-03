@@ -10,6 +10,12 @@ export default defineConfig({
     // (e.g. Render) so the process binds to the correct port.
     host: true,
     port: Number(process.env.PORT) || 3000,
+    // Allow Render's frontend hostname so Vite doesn't block requests from it
+    // when running on Render. You can add more hosts to this array as needed
+    // or set it to 'all' to allow any host (less secure).
+    allowedHosts: [
+      'frontend-idcardbitroot.onrender.com'
+    ],
     proxy: {
       '/api': {
         target: 'http://localhost:8000',
