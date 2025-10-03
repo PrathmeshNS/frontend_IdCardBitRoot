@@ -1,0 +1,33 @@
+# Render service descriptor for the frontend (Vite app)
+#
+# Notes:
+# - This declares a static site for Render. Set your secrets and env vars
+#   (VITE_API_BASE_URL, VITE_*, etc.) in the Render dashboard or use Render
+#   Secrets (do NOT commit secrets into the repo).
+# - The build command runs on Linux in the Render build step. We use "npm ci"
+#   for reproducible installs and `npm run build` to produce the `dist/` folder
+#   that Vite outputs by default.
+
+services:
+  - type: static
+    name: newbitroot-frontend
+    repo: ""
+    branch: main
+    env: node
+    plan: free
+    region: oregon
+    # Build: install dependencies and run the production build
+    buildCommand: "npm ci && npm run build"
+    # Directory to publish (Vite outputs to `dist` by default)
+    staticPublishPath: "dist"
+    # Optional: pin a node version (Render will use this if provided)
+    nodeVersion: 18
+    # Environment variables to set in Render (placeholders only).
+    # For Vite, client-facing variables must be prefixed with VITE_.
+    envVars:
+      - key: VITE_API_BASE_URL
+      - key: VITE_CLOUDINARY_UPLOAD_PRESET
+      - key: VITE_AUTH_CALLBACK_URL
+
+# If you use yarn or pnpm, change `buildCommand` accordingly. For local
+# development on Windows, use `npm install` then `npm run dev` to iterate.
